@@ -2,13 +2,14 @@ var fs = require('fs');
 
 module.exports = {
   pwd: function() {
-    return process.env.PWD;
+    return this.stringCallback(process.env.PWD);
   },
   date: function() {
-    return new Date();
+    return this.stringCallback(new Date());
   },
   ls: function() {
     let dirs = '';
+    let callBack = this.stringCallback;
     // let stringBuilder = (string) => {
     //   dirs = dirs.concat(string);
     // }
@@ -20,11 +21,12 @@ module.exports = {
         dirs += file.toString() + "\n";
       })
       // process.stdout.write("\nprompt > ");
+      return callBack(dirs);
     });
-    return this.stringCallback(dirs);
+    
   },
   stringCallback: function(string) {
-    process.stdout.write("Result: " + string + "\n");
+    process.stdout.write("\nResult: " + string + "\n");
     process.stdout.write("\nprompt > ");
   }
 }

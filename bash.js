@@ -1,3 +1,5 @@
+'use strict'
+
 var commands = require('./commands');
 // console.log("Process Alone", process);
 // console.log("\nObjects Keys", Object.keys(process));
