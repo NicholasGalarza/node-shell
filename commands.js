@@ -1,4 +1,5 @@
-var fs = require('fs');
+const readline = require('readline');
+const fs = require('fs');
 
 module.exports = {
   pwd: function(args) {
@@ -29,10 +30,35 @@ module.exports = {
     
   },
   cat: function (args) {
-
+    let data = '';
+    let callBack = this.stringCallback;
+    let readStream = fs.createReadStream(args[0], 'utf8');
+    let lineNum = 0;
+    readStream.on('data', function(chunk) {  
+        data += chunk;
+        lineNum++;
+    }).on('end', function() {
+      return callBack(data);
+    });
   },
-  head: function (arhs) {
-
+  head: function (args) {
+    let data = '';
+    let callBack = this.stringCallback;
+    let readStream = fs.createReadStream(args[0], 'utf8');
+    let lineNum = 0;
+    let finalLineIndex = 0;
+    readStream.on('data', function(chunk) {  
+        data += chunk;
+        lineNum++;
+    }).on('end', function() {
+      while(lineNum <= 5) {
+        finalLineIndex = data.indexOf("\n",finalLineIndex);
+        if(finalLineIndex > -1) {
+          lineNum++;
+        }
+      }
+      return callBack(data.slice(0,finalLineIndex));
+    });
   },
   tail : function(args) {
 
