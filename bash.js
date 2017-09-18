@@ -12,16 +12,9 @@ process.stdin.on('data', function (data) {
   // process.stdout.write("TYPE: "+typeof(data) + "data: " + data);
   let dataStringArr = data.toString().trim().split(" ");
   let cmd = dataStringArr[0];
-
   let args = dataStringArr.slice(1);
-  process.stdout.write("OUR ARGS:: "+args);
-
-  // let cmd = data.toString().trim(); // remove the newline
-  //let result = (commands.hasOwnProperty(cmd)) ? commands[cmd]() : null;
 
   process.stdout.write('\nYou typed: ' + cmd);
   commands[cmd](args);
-  // process.stdout.write('\nResult: ' + commands[cmd]());
-  // process.stdout.write('\n\nprompt > ');
 
 });

@@ -49,26 +49,44 @@ module.exports = {
 
   },
   head: function(args) {
-    let data = '';
+
     let callBack = this.stringCallback;
-    let readStream = fs.createReadStream(args[0], 'utf8');
-    readStream.on('data', function(chunk) {
-      data += chunk;
-    }).on('end', function() {
-      data = data.split("\n");
-      return callBack(data.slice(0, 5).join("\n"));
-    });
+    let finalData = '';
+
+    for (let i = 0; i <= args.length - 1; i++) {
+      let data = '';
+      let readStream = fs.createReadStream(args[i], 'utf8');
+      readStream.on('data', function(chunk) {
+        data += chunk;
+      }).on('end', function() {
+        data = data.split("\n");
+        finalData += data.slice(0, 5).join("\n");
+        if (i === args.length - 1) {
+          return callBack(finalData);
+        }
+      });
+    }
+
   },
   tail: function(args) {
-    let data = '';
+
     let callBack = this.stringCallback;
-    let readStream = fs.createReadStream(args[0], 'utf8');
-    readStream.on('data', function(chunk) {
-      data += chunk;
-    }).on('end', function() {
-      data = data.split("\n");
-      return callBack(data.slice(-6).join("\n"));
-    });
+    let finalData = '';
+
+    for (let i = 0; i <= args.length - 1; i++) {
+      let data = '';
+      let readStream = fs.createReadStream(args[i], 'utf8');
+      readStream.on('data', function(chunk) {
+        data += chunk;
+      }).on('end', function() {
+        data = data.split("\n");
+        finalData += data.slice(-6).join("\n");
+        if (i === args.length - 1) {
+          return callBack(finalData);
+        }
+      });
+    }
+
   },
   stringCallback: function(string) {
     process.stdout.write("\nResult: " + string + "\n");
