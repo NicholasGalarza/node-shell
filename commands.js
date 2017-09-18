@@ -1,13 +1,16 @@
 var fs = require('fs');
 
 module.exports = {
-  pwd: function() {
+  pwd: function(args) {
     return this.stringCallback(process.env.PWD);
   },
-  date: function() {
+  date: function(args) {
     return this.stringCallback(new Date());
   },
-  ls: function() {
+  echo: function(args) {
+    return this.stringCallback(args.join(" "));
+  },
+  ls: function(args) {
     let dirs = '';
     let callBack = this.stringCallback;
     // let stringBuilder = (string) => {
@@ -24,6 +27,15 @@ module.exports = {
       return callBack(dirs);
     });
     
+  },
+  cat: function (args) {
+
+  },
+  head: function (arhs) {
+
+  },
+  tail : function(args) {
+
   },
   stringCallback: function(string) {
     process.stdout.write("\nResult: " + string + "\n");
