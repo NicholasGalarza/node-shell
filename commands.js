@@ -27,50 +27,44 @@ module.exports = {
       // process.stdout.write("\nprompt > ");
       return callBack(dirs);
     });
-    
+
   },
-  cat: function (args) {
+  cat: function(args) {
     let data = '';
     let callBack = this.stringCallback;
-    // process.stdout.write(Array.from(args));
-    args = Array.from(args); 
-    // let fileArr = args.split(" ");
-    let fileArr = args; 
-    // process.stdout.write("\n =====");
-    // process.stdout.write(fileArr);
-    // process.stdout.write("\n =====");
-    for(let i = 0; i <= fileArr.length; i++) {
-      let fileName = fileArr[i];
-      let readStream = fs.createReadStream( fileName, 'utf8');
+
+    for (let i = 0; i <= args.length - 1; i++) {
+      let fileName = args[i];
+      let readStream = fs.createReadStream(fileName, 'utf8');
       let lineNum = 0;
-      readStream.on('data', function(chunk) {  
-          data += chunk;
-          lineNum++;
+      readStream.on('data', function(chunk) {
+        data += chunk;
+        lineNum++;
       }).on('end', function() {
-        if(i === fileArr.length-1) {
+        if (i === args.length - 1) {
           return callBack(data);
         }
       });
     }
-    
+
   },
-  head: function (args) {
+  head: function(args) {
     let data = '';
     let callBack = this.stringCallback;
     let readStream = fs.createReadStream(args[0], 'utf8');
-    readStream.on('data', function(chunk) {  
-        data += chunk;
+    readStream.on('data', function(chunk) {
+      data += chunk;
     }).on('end', function() {
       data = data.split("\n");
-      return callBack(data.slice(0,5).join("\n"));
+      return callBack(data.slice(0, 5).join("\n"));
     });
   },
-  tail : function(args) {
+  tail: function(args) {
     let data = '';
     let callBack = this.stringCallback;
     let readStream = fs.createReadStream(args[0], 'utf8');
-    readStream.on('data', function(chunk) {  
-        data += chunk;
+    readStream.on('data', function(chunk) {
+      data += chunk;
     }).on('end', function() {
       data = data.split("\n");
       return callBack(data.slice(-6).join("\n"));
